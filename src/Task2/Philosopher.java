@@ -16,12 +16,15 @@ public class Philosopher implements Runnable {
 	private double thinkingTime = 0;
 	private double eatingTime = 0;
 	private double hungryTime = 0;
+
+	private boolean debug;
 	
-	public Philosopher(int id, ChopStick leftChopStick, ChopStick rightChopStick, int seed) {
+	public Philosopher(int id, ChopStick leftChopStick, ChopStick rightChopStick, int seed, boolean debug) {
 		this.id = id;
 		this.leftChopStick = leftChopStick;
 		this.rightChopStick = rightChopStick;
 		
+		this.debug = debug;
 		/*
 		 * set the seed for this philosopher. To differentiate the seed from the other philosophers, we add the philosopher id to the seed.
 		 * the seed makes sure that the random numbers are the same every time the application is executed
@@ -104,38 +107,61 @@ public class Philosopher implements Runnable {
 		 * Add comprehensive comments to explain your implementation, including deadlock prevention/detection
 		 */
 		
+		final int RANDOM_TIME = 1000;
+		
 		try {
+			
 			while(true) {
 				// thinking (random 0-1000 ms)
-				int num = randomGenerator.nextInt(1000);
+				int num = randomGenerator.nextInt(RANDOM_TIME);
 				Thread.sleep(num);
+				if(debug)
+					System.out.println("Philosopher_" + id + " is THINKING");
 				thinkingTime += num;
 				numberOfThinkingTurns ++;
 				
+				
 				//hungry (waiting for chopsticks to be available)
+				if(debug)
+					System.out.println("Philosopher_" + id + " is HUNGRY");
+				long timeStamp = System.currentTimeMillis();
 //				while(!leftChopStick.pickUp() || !rightChopStick.pickUp()) {
-				long startHungry= System.currentTimeMillis();
-				while(leftChopStick.isUnavailable() && rightChopStick.isUnavailable()) {
-//					num = 50;
-//					Thread.sleep(num);
+//					leftChopStick.putDown();
+//					Thread.sleep(1);
+//				};
+				while(!leftChopStick.isAvailable() || !rightChopStick.isAvailable()) {
+					Thread.sleep(1);
 				}
-				long hungryTime = System.currentTimeMillis() - startHungry;
+				long timeTaken = System.currentTimeMillis() - timeStamp;
 				leftChopStick.pickUp();
 				rightChopStick.pickUp();
+
+				if(debug) {
+					System.out.println("Philosopher_" + id + " picked up Chopstick_" + leftChopStick.getId());
+					System.out.println("Philosopher_" + id + " picked up Chopstick_" + rightChopStick.getId());
+				}
+				hungryTime += timeTaken;
 				numberOfHungryTurns ++;
-				hungryTime += hungryTime;
+				
 				
 				//eating (random 0-1000 ms)
-				num = randomGenerator.nextInt(1000);
+				num = randomGenerator.nextInt(RANDOM_TIME);
+				if(debug)
+					System.out.println("Philosopher_" + id + " is EATING");
 				Thread.sleep(num);
-				leftChopStick.putDown();
 				rightChopStick.putDown();
+				leftChopStick.putDown();
+				if(debug) {
+					System.out.println("Philosopher_" + id + " released Chopstick_" + rightChopStick.getId());
+					System.out.println("Philosopher_" + id + " released Chopstick_" + leftChopStick.getId());
+				}
 				eatingTime += num;
-				numberOfEatingTurns ++;			
+				numberOfEatingTurns ++;	
 			}
 		}
-		catch(InterruptedException e ) {
+		catch(InterruptedException e) {
 		}
 	
 	}
+	
 }

@@ -1,5 +1,3 @@
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 public class ChopStick {
@@ -17,21 +15,22 @@ public class ChopStick {
 	 * The myLock.tryLock() method provides a boolean value indicating whether the lock was acquired or not.
 	 */
 	
-	boolean isUnavailable() {
-		return myLock.isLocked();
+	int getId() {
+		return id;
 	}
 	
-	boolean isHeld() {
-		return myLock.isHeldByCurrentThread();
+	boolean isAvailable() {
+		return !myLock.isLocked();
 	}
 	
-	boolean pickUp() {
-		try {
-			return myLock.tryLock(1001, TimeUnit.MILLISECONDS);
-		}
-		catch(InterruptedException e) {
-			return false;
-		}
+	void pickUp() {
+		myLock.lock();
+//		try {
+//			return myLock.tryLock(100, TimeUnit.MILLISECONDS);
+//		}
+//		catch(InterruptedException e) {
+//			return false;
+//		}
 	}
 	
 	void putDown() {

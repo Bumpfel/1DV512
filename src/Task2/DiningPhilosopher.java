@@ -1,5 +1,6 @@
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
@@ -47,9 +48,9 @@ public class DiningPhilosopher {
 			 *  Stop all philosophers.
 			 *  Add comprehensive comments to explain your implementation.
 			 */
-
-		} finally {
 			executorService.shutdownNow();
+		}
+		finally {
 			executorService.shutdown();
 			executorService.awaitTermination(10, TimeUnit.MILLISECONDS);
 		}
@@ -85,7 +86,7 @@ public class DiningPhilosopher {
 			else
 				rightCS = chopSticks.get(i + 1);
 			
-			Philosopher p = new Philosopher(i, leftCS, rightCS, randomSeed + i);
+			Philosopher p = new Philosopher(i, leftCS, rightCS, randomSeed + i, DEBUG);
 			philosophers.add(p);
 //			executorService.submit(p);
 		}
