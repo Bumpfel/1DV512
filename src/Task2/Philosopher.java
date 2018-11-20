@@ -113,17 +113,23 @@ public class Philosopher implements Runnable {
 				numberOfThinkingTurns ++;
 				
 				//hungry (waiting for chopsticks to be available)
-				if(!leftChopStick.pickUp() || !rightChopStick.pickUp()) {
-					leftChopStick.putDown();
-					rightChopStick.putDown();
-					Thread.sleep(num);
-					hungryTime += num;
-					numberOfHungryTurns ++;
+//				while(!leftChopStick.pickUp() || !rightChopStick.pickUp()) {
+				long startHungry= System.currentTimeMillis();
+				while(leftChopStick.isUnavailable() && rightChopStick.isUnavailable()) {
+//					num = 50;
+//					Thread.sleep(num);
 				}
+				long hungryTime = System.currentTimeMillis() - startHungry;
+				leftChopStick.pickUp();
+				rightChopStick.pickUp();
+				numberOfHungryTurns ++;
+				hungryTime += hungryTime;
 				
 				//eating (random 0-1000 ms)
 				num = randomGenerator.nextInt(1000);
 				Thread.sleep(num);
+				leftChopStick.putDown();
+				rightChopStick.putDown();
 				eatingTime += num;
 				numberOfEatingTurns ++;			
 			}

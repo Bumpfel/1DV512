@@ -26,24 +26,24 @@ public class FCFS{
 		Queue<Process> queue = new LinkedList<>(processes);
 		
 		int time = 0;
-		int prevTime = 0;
-		Process active = null;
+		int activeProcessStartTime = 0;
+		Process activeProcess = null;
 		boolean done = false;
 		while(!done) {
-			if(active == null && time >= queue.peek().getArrivalTime()) {
-				active = queue.poll();
-				prevTime = time;
+			if(activeProcess == null && time >= queue.peek().getArrivalTime()) {
+				activeProcess = queue.poll();
+				activeProcessStartTime = time;
 			}
 			time ++;
-			if(active != null && prevTime + active.getBurstTime() == time) {
-				active.setCompletedTime(time);
-				active.setTurnaroundTime(active.getCompletedTime() - active.getArrivalTime());
-				active.setWaitingTime(active.getTurnaroundTime() - active.getBurstTime());
-				active = null;
+			if(activeProcess != null && activeProcessStartTime + activeProcess.getBurstTime() == time) {
+				activeProcess.setCompletedTime(time);
+				activeProcess.setTurnaroundTime(activeProcess.getCompletedTime() - activeProcess.getArrivalTime());
+				activeProcess.setWaitingTime(activeProcess.getTurnaroundTime() - activeProcess.getBurstTime());
+				activeProcess = null;
 				
 				if(queue.isEmpty())
 					done = true;
-			}			
+			}
 		}
 
 		printGanttChart();

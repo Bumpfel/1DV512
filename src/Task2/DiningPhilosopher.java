@@ -16,7 +16,7 @@ public class DiningPhilosopher {
 	public boolean DEBUG = false;
 	private final int NUMBER_OF_PHILOSOPHERS = 5;
 	private int SIMULATION_TIME = 10000;
-	private int SEED = 0;
+	//private int SEED = 0;
 
 	ExecutorService executorService = null;
 	ArrayList<Philosopher> philosophers = null;
@@ -47,12 +47,9 @@ public class DiningPhilosopher {
 			 *  Stop all philosophers.
 			 *  Add comprehensive comments to explain your implementation.
 			 */
-			for(Philosopher p : philosophers) {
-//				p.wait();
-			}
-
 
 		} finally {
+			executorService.shutdownNow();
 			executorService.shutdown();
 			executorService.awaitTermination(10, TimeUnit.MILLISECONDS);
 		}
@@ -60,7 +57,7 @@ public class DiningPhilosopher {
 
 	public void initialize(int simulationTime, int randomSeed) {
 		SIMULATION_TIME = simulationTime;
-		SEED = randomSeed;
+//		SEED = randomSeed;
 
 		philosophers = new ArrayList<Philosopher>(NUMBER_OF_PHILOSOPHERS);
 		chopSticks = new ArrayList<ChopStick>(NUMBER_OF_PHILOSOPHERS);
@@ -83,12 +80,14 @@ public class DiningPhilosopher {
 			ChopStick leftCS = chopSticks.get(i);
 			ChopStick rightCS;
 			
-			if(i == NUMBER_OF_PHILOSOPHERS)				
+			if(i == NUMBER_OF_PHILOSOPHERS - 1)
 				rightCS = chopSticks.get(0);
 			else
 				rightCS = chopSticks.get(i + 1);
 			
-			philosophers.add(new Philosopher(i, leftCS, rightCS, randomSeed + i));
+			Philosopher p = new Philosopher(i, leftCS, rightCS, randomSeed + i);
+			philosophers.add(p);
+//			executorService.submit(p);
 		}
 
 	}

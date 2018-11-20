@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 import org.junit.Test;
 
-import junit.framework.Assert;
+//import junit.framework.Assert;
 
 public class DinigPhilosopherTest {
 
