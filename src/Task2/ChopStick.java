@@ -15,4 +15,12 @@ public class ChopStick {
 	 * Use the myLock to lock this chopstick. Print the logs only when the lock has been acquired. 
 	 * The myLock.tryLock() method provides a boolean value indicating whether the lock was acquired or not.
 	 */
+	
+	boolean pickUp() {
+		return myLock.tryLock();
+	}
+	
+	void putDown() {
+		myLock.unlock();
+	}
 }

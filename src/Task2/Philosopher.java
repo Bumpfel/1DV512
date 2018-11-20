@@ -50,7 +50,7 @@ public class Philosopher implements Runnable {
 		 * Return the average thinking time
 		 * Add comprehensive comments to explain your implementation
 		 */
-		return 0;
+		return thinkingTime / numberOfThinkingTurns;
 	}
 
 	public double getAverageEatingTime() {
@@ -58,7 +58,7 @@ public class Philosopher implements Runnable {
 		 * Return the average eating time
 		 * Add comprehensive comments to explain your implementation
 		 */
-		return 0;
+		return eatingTime / numberOfEatingTurns;
 	}
 
 	public double getAverageHungryTime() {
@@ -66,7 +66,7 @@ public class Philosopher implements Runnable {
 		 * Return the average hungry time
 		 * Add comprehensive comments to explain your implementation
 		 */
-		return 0;
+		return hungryTime / numberOfHungryTurns;
 	}
 	
 	public int getNumberOfThinkingTurns() {
@@ -104,5 +104,32 @@ public class Philosopher implements Runnable {
 		 * Add comprehensive comments to explain your implementation, including deadlock prevention/detection
 		 */
 		
+		try {
+			while(true) {
+				// thinking (random 0-1000 ms)
+				int num = randomGenerator.nextInt(1000);
+				Thread.sleep(num);
+				thinkingTime += num;
+				numberOfThinkingTurns ++;
+				
+				//hungry (waiting for chopsticks to be available)
+				if(!leftChopStick.pickUp() || !rightChopStick.pickUp()) {
+					leftChopStick.putDown();
+					rightChopStick.putDown();
+					Thread.sleep(num);
+					hungryTime += num;
+					numberOfHungryTurns ++;
+				}
+				
+				//eating (random 0-1000 ms)
+				num = randomGenerator.nextInt(1000);
+				Thread.sleep(num);
+				eatingTime += num;
+				numberOfEatingTurns ++;			
+			}
+		}
+		catch(InterruptedException e ) {
+		}
+	
 	}
 }

@@ -47,6 +47,9 @@ public class DiningPhilosopher {
 			 *  Stop all philosophers.
 			 *  Add comprehensive comments to explain your implementation.
 			 */
+			for(Philosopher p : philosophers) {
+//				p.wait();
+			}
 
 
 		} finally {
@@ -72,9 +75,25 @@ public class DiningPhilosopher {
 		 * Add comprehensive comments to explain your implementation.
 		 */
 
+		for(int i = 0; i < NUMBER_OF_PHILOSOPHERS; i ++) {
+			chopSticks.add(new ChopStick(i));
+		}
+		
+		for(int i = 0; i < NUMBER_OF_PHILOSOPHERS; i ++) {
+			ChopStick leftCS = chopSticks.get(i);
+			ChopStick rightCS;
+			
+			if(i == NUMBER_OF_PHILOSOPHERS)				
+				rightCS = chopSticks.get(0);
+			else
+				rightCS = chopSticks.get(i + 1);
+			
+			philosophers.add(new Philosopher(i, leftCS, rightCS, randomSeed + i));
+		}
+
 	}
 
-	public ArrayList<Philosopher> getPhilosophers() {
+	public ArrayList<Philosopher> getPhilosophers() { // bad encapsulation
 		return philosophers;
 	}
 
