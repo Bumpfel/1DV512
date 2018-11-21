@@ -22,12 +22,13 @@ public class DiningPhilosopher {
 	ExecutorService executorService = null;
 	ArrayList<Philosopher> philosophers = null;
 	ArrayList<ChopStick> chopSticks = null;
-
+	
 	public void start() throws InterruptedException {
 		try {
 			/*
 			 * First we start two non-adjacent threads, which are T1 and T3
 			 */
+			long startTime = System.currentTimeMillis();
 			for (int i = 1; i < NUMBER_OF_PHILOSOPHERS; i+=2) {
 				executorService.execute(philosophers.get(i));
 				Thread.sleep(50); //makes sure that this thread kicks in before the next one
@@ -42,17 +43,18 @@ public class DiningPhilosopher {
 			}
 
 			// Main thread sleeps till time of simulation
-			Thread.sleep(SIMULATION_TIME);
+//			Thread.sleep(SIMULATION_TIME);
+			while ((System.currentTimeMillis() - startTime) <= SIMULATION_TIME);
 
 			/*	TODO
 			 *  Stop all philosophers.
 			 *  Add comprehensive comments to explain your implementation.
 			 */
-			executorService.shutdownNow();
+			executorService.shutdownNow(); // shuts down all active tasks
 		}
 		finally {
-			executorService.shutdown();
-			executorService.awaitTermination(10, TimeUnit.MILLISECONDS);
+//			executorService.shutdown();
+//			executorService.awaitTermination(10, TimeUnit.MILLISECONDS);
 		}
 	}
 
@@ -86,9 +88,7 @@ public class DiningPhilosopher {
 			else
 				rightCS = chopSticks.get(i + 1);
 			
-			Philosopher p = new Philosopher(i, leftCS, rightCS, randomSeed + i, DEBUG);
-			philosophers.add(p);
-//			executorService.submit(p);
+			philosophers.add(new Philosopher(i, leftCS, rightCS, randomSeed + i, DEBUG));
 		}
 
 	}

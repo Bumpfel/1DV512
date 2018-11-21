@@ -107,18 +107,19 @@ public class Philosopher implements Runnable {
 		 * Add comprehensive comments to explain your implementation, including deadlock prevention/detection
 		 */
 		
-		final int RANDOM_TIME = 1000;
+		final int RANDOM_TIME = 1000; //== [0, 1000[              1001 would give [0-1000]
 		
 		try {
 			
 			while(true) {
-				// thinking (random 0-1000 ms)
+				// thinking
 				int num = randomGenerator.nextInt(RANDOM_TIME);
 				Thread.sleep(num);
 				if(debug)
 					System.out.println("Philosopher_" + id + " is THINKING");
 				thinkingTime += num;
 				numberOfThinkingTurns ++;
+				
 				
 				
 				//hungry (waiting for chopsticks to be available)
@@ -129,7 +130,7 @@ public class Philosopher implements Runnable {
 //					leftChopStick.putDown();
 //					Thread.sleep(1);
 //				};
-				while(!leftChopStick.isAvailable() || !rightChopStick.isAvailable()) {
+				while(!leftChopStick.isAvailable() || !rightChopStick.isAvailable()) { // Deadlocks should not happen since a philosopher only picks up the chop sticks when both the left and right are available
 					Thread.sleep(1);
 				}
 				long timeTaken = System.currentTimeMillis() - timeStamp;
@@ -144,7 +145,8 @@ public class Philosopher implements Runnable {
 				numberOfHungryTurns ++;
 				
 				
-				//eating (random 0-1000 ms)
+				
+				//eating
 				num = randomGenerator.nextInt(RANDOM_TIME);
 				if(debug)
 					System.out.println("Philosopher_" + id + " is EATING");
