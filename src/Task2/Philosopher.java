@@ -107,18 +107,17 @@ public class Philosopher implements Runnable {
 		 * Add comprehensive comments to explain your implementation, including deadlock prevention/detection
 		 */
 		
-		final int RANDOM_TIME = 1000; //== [0, 1000[              1001 would give [0-1000]
+		final int RANDOM_TIME = 1001; //== [0, 1000[              randomGenerator(1001) would be [0-1000]
 		
 		try {
-			
 			while(true) {
 				// thinking
 				int num = randomGenerator.nextInt(RANDOM_TIME);
+				numberOfThinkingTurns ++;
 				Thread.sleep(num);
 				if(debug)
 					System.out.println("Philosopher_" + id + " is THINKING");
 				thinkingTime += num;
-				numberOfThinkingTurns ++;
 				
 				
 				
@@ -126,11 +125,9 @@ public class Philosopher implements Runnable {
 				if(debug)
 					System.out.println("Philosopher_" + id + " is HUNGRY");
 				long timeStamp = System.currentTimeMillis();
-//				while(!leftChopStick.pickUp() || !rightChopStick.pickUp()) {
-//					leftChopStick.putDown();
-//					Thread.sleep(1);
-//				};
-				while(!leftChopStick.isAvailable() || !rightChopStick.isAvailable()) { // Deadlocks should not happen since a philosopher only picks up the chop sticks when both the left and right are available
+				numberOfHungryTurns ++;
+				 // Deadlocks should not happen since a philosopher only picks up the chop sticks when both the left and right are available
+				while(!leftChopStick.isAvailable() || !rightChopStick.isAvailable()) {
 					Thread.sleep(1);
 				}
 				long timeTaken = System.currentTimeMillis() - timeStamp;
@@ -142,7 +139,6 @@ public class Philosopher implements Runnable {
 					System.out.println("Philosopher_" + id + " picked up Chopstick_" + rightChopStick.getId());
 				}
 				hungryTime += timeTaken;
-				numberOfHungryTurns ++;
 				
 				
 				
@@ -150,6 +146,7 @@ public class Philosopher implements Runnable {
 				num = randomGenerator.nextInt(RANDOM_TIME);
 				if(debug)
 					System.out.println("Philosopher_" + id + " is EATING");
+				numberOfEatingTurns ++;	
 				Thread.sleep(num);
 				rightChopStick.putDown();
 				leftChopStick.putDown();
@@ -158,7 +155,6 @@ public class Philosopher implements Runnable {
 					System.out.println("Philosopher_" + id + " released Chopstick_" + leftChopStick.getId());
 				}
 				eatingTime += num;
-				numberOfEatingTurns ++;	
 			}
 		}
 		catch(InterruptedException e) {

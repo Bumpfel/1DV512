@@ -25,12 +25,6 @@ public class ChopStick {
 	
 	void pickUp() {
 		myLock.lock();
-//		try {
-//			return myLock.tryLock(100, TimeUnit.MILLISECONDS);
-//		}
-//		catch(InterruptedException e) {
-//			return false;
-//		}
 	}
 	
 	void putDown() {

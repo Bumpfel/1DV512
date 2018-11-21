@@ -48,8 +48,8 @@ public class DinigPhilosopherTest {
 			assertTrue("The average thinking times may not be correct!", p.getAverageThinkingTime() > 10 && p.getAverageThinkingTime() < 990);
 
 			if(p.getId() == 0) {
-				assertEquals("The average thinking time may not be correct!", (int) Math.floor(p.getAverageThinkingTime()), 693);
-				assertEquals("The average eating time may not be correct!", (int) Math.floor(p.getAverageEatingTime()), 412);
+				assertTrue("The average thinking time may not be correct!", Math.floor(p.getAverageThinkingTime()) == 693);
+				assertTrue("The average eating time may not be correct!", Math.floor(p.getAverageEatingTime()) == 412);
 			}
 			else if(p.getId() == 1) {
 				assertTrue("The average thinking time may not be correct!", Math.floor(p.getAverageThinkingTime()) == 315);
