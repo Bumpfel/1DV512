@@ -4,7 +4,7 @@ public class Main {
 
     public static void main(String args[]) throws IOException, InterruptedException {
     	DiningPhilosopher dp = new DiningPhilosopher(); // create an instance to DiningPhilosopher class
-//    	dp.DEBUG = true;
+    	dp.DEBUG = true;
         int simulationTime = 3000;
         int seed = 100;
         if(args.length > 0) // check if parameters are passed as argument

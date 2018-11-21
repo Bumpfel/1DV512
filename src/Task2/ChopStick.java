@@ -15,6 +15,8 @@ public class ChopStick {
 	 * The myLock.tryLock() method provides a boolean value indicating whether the lock was acquired or not.
 	 */
 	
+	// I see no reason to comment these...
+	
 	int getId() {
 		return id;
 	}

@@ -107,7 +107,7 @@ public class Philosopher implements Runnable {
 		 * Add comprehensive comments to explain your implementation, including deadlock prevention/detection
 		 */
 		
-		final int RANDOM_TIME = 1001; //== [0, 1000[              randomGenerator(1001) would be [0-1000]
+		final int RANDOM_TIME = 1000; //== [0, 1000[              randomGenerator(1001) would be [0-1000]
 		
 		try {
 			while(true) {
@@ -146,7 +146,7 @@ public class Philosopher implements Runnable {
 				num = randomGenerator.nextInt(RANDOM_TIME);
 				if(debug)
 					System.out.println("Philosopher_" + id + " is EATING");
-				numberOfEatingTurns ++;	
+				numberOfEatingTurns ++;
 				Thread.sleep(num);
 				rightChopStick.putDown();
 				leftChopStick.putDown();

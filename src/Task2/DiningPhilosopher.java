@@ -1,10 +1,7 @@
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
-
 
 public class DiningPhilosopher {
 
@@ -17,7 +14,7 @@ public class DiningPhilosopher {
 	public boolean DEBUG = false;
 	private final int NUMBER_OF_PHILOSOPHERS = 5;
 	private int SIMULATION_TIME = 10000;
-	//private int SEED = 0;
+	//private int SEED = 0; // meaningless variable
 
 	ExecutorService executorService = null;
 	ArrayList<Philosopher> philosophers = null;
@@ -51,8 +48,8 @@ public class DiningPhilosopher {
 			executorService.shutdownNow(); // shuts down all active tasks
 		}
 		finally {
-			executorService.shutdown();
-			executorService.awaitTermination(10, TimeUnit.MILLISECONDS);
+//			executorService.shutdown();
+//			executorService.awaitTermination(10, TimeUnit.MILLISECONDS);
 		}
 	}
 
@@ -81,6 +78,7 @@ public class DiningPhilosopher {
 			ChopStick leftCS = chopSticks.get(i);
 			ChopStick rightCS;
 			
+			// if the loop is on the last iteration, make chopstick 0 philosopher 4's right chopstick
 			if(i == NUMBER_OF_PHILOSOPHERS - 1)
 				rightCS = chopSticks.get(0);
 			else
